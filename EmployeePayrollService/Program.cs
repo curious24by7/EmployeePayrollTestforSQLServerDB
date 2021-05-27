@@ -9,10 +9,10 @@ namespace EmployeePayrollService
             Console.WriteLine("Welcome to Employee Payroll!");
             EmployeeRepo repo = new EmployeeRepo();
             EmployeeModel employee = new EmployeeModel();
-            employee.EmployeeName = "Mohan";
-            employee.Department = "Tech1";
-            employee.PhoneNumber = "6302907678";
-            employee.Address = "02-Patna";
+            employee.EmployeeName = "Shyam";
+            employee.Department = "Sales";
+            employee.PhoneNumber = "9863907678";
+            employee.Address = "9865 KY Street";
             employee.Gender = "M";
             employee.BasicPay = 10000.00M;
             employee.Deductions = 1500.00;
