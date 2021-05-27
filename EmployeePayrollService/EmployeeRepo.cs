@@ -33,9 +33,9 @@ namespace EmployeePayrollService
                             employeeModel.Address = dr.GetString(6);
                             employeeModel.Department = dr.GetString(7);
                             employeeModel.Deductions = dr.GetDouble(8);
-                            employeeModel.TaxablePay = dr.GetDouble(9);
-                            employeeModel.NetPay = dr.GetDouble(10);
-                            employeeModel.Tax = dr.GetDouble(11);
+                            employeeModel.TaxablePay = dr.GetDecimal(9);
+                            employeeModel.NetPay = dr.GetDecimal(10);
+                            employeeModel.Tax = dr.GetDecimal(11);
                             System.Console.WriteLine(employeeModel.EmployeeName + " " + employeeModel.BasicPay + " " + employeeModel.StartDate + " " + employeeModel.Gender + " " + employeeModel.PhoneNumber + " " + employeeModel.Address + " " + employeeModel.Department + " " + employeeModel.Deductions + " " + employeeModel.TaxablePay + " " + employeeModel.Tax + " " + employeeModel.NetPay);
                             System.Console.WriteLine("\n");
                         }

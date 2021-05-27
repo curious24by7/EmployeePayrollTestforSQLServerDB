@@ -16,7 +16,7 @@ namespace EmployeePayrollTestforSQLServerDB
             employee.Department = "Tech1";
             employee.PhoneNumber = "6302907678";
             employee.Address = "02-Patna";
-            employee.Gender = 'M';
+            employee.Gender = "M";
             employee.BasicPay = 10000.00M;
             employee.Deductions = 1500.00;
             employee.StartDate = Convert.ToDateTime("2020-11-03");
