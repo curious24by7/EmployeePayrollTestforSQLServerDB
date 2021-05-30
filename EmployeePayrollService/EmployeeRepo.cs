@@ -168,6 +168,7 @@ namespace EmployeePayrollService
                 using (connection)
                 {
                     string SUM = @"select sum (basic_pay) from employee_payroll where gender='M'";
+                    string AVG = @"select avg (basic_pay) from employee_payroll where gender='M'";
                     SqlCommand Sumcmd = new SqlCommand(SUM, connection);
                     connection.Open();
                     SqlDataReader dr = Sumcmd.ExecuteReader();
@@ -175,13 +176,30 @@ namespace EmployeePayrollService
                     {
                         while (dr.Read())
                         {
-                            decimal ADD =  dr.GetDecimal(0);
-                            Console.WriteLine("Salary Total = {0}" , ADD);
+                            decimal Add = dr.GetDecimal(0);
+                            Console.WriteLine("Salary Total = {0}", Add);
                         }
                     }
                     else
                     {
-                        Console.WriteLine("No such Data Found!!");
+                        Console.WriteLine("No Data Found");
+                    }
+                    connection.Close();
+
+                    SqlCommand average = new SqlCommand(AVG, connection);
+                    connection.Open();
+                    SqlDataReader AvgDr = average.ExecuteReader();
+                    if (AvgDr.HasRows)
+                    {
+                        while (AvgDr.Read())
+                        {
+                            decimal Avg = AvgDr.GetDecimal(0);
+                            Console.WriteLine("Average Total Salary = {0}", Avg);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Data Found");
                     }
                     connection.Close();
                 }
