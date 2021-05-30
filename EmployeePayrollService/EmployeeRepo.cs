@@ -59,7 +59,6 @@ namespace EmployeePayrollService
             {
                 using (this.connection)
                 {
-                    //var qury=values()
                     SqlCommand command = new SqlCommand("SpAddEmployeeDetails", this.connection);
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@EmployeeName", model.EmployeeName);
@@ -73,8 +72,6 @@ namespace EmployeePayrollService
                     command.Parameters.AddWithValue("@Tax", model.Tax);
                     command.Parameters.AddWithValue("@NetPay", model.NetPay);
                     command.Parameters.AddWithValue("@StartDate", DateTime.Now);
-                    //command.Parameters.AddWithValue("@City", model.City);
-                    //command.Parameters.AddWithValue("@Country", model.Country);
                     this.connection.Open();
                     var result = command.ExecuteNonQuery();
                     this.connection.Close();
@@ -96,64 +93,36 @@ namespace EmployeePayrollService
             return false;
         }
 
-        public void InsertEmployeeRecord(Employee employee)
+        public bool UpdateEmployeeSalary(EmployeeModel model)
         {
-            employee.deduction = Convert.ToInt32(0.2 * employee.basicPay);
-            employee.taxablePay = employee.basicPay - employee.deduction;
-            employee.incomeTax = Convert.ToInt32(0.1 * employee.taxablePay);
-            employee.netPay = employee.basicPay - employee.incomeTax;
             SqlConnection connection = new SqlConnection(connectionString);
-
-
-            string storedProcedure = "sp_InsertEmployeePayrollDetails";
-            string storedProcedurePayroll = "sp_InsertPayrollDetails";
-            using (connection)
+            try
             {
-                connection.Open();
-                SqlTransaction transaction;
-                transaction = connection.BeginTransaction("Insert Employee Transaction");
-                try
+                using(connection)
                 {
-                    SqlCommand sqlCommand = new SqlCommand(storedProcedure, connection, transaction);
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.Parameters.AddWithValue("@StartDate", employee.startDate);
-                    sqlCommand.Parameters.AddWithValue("@Name", employee.name);
-                    sqlCommand.Parameters.AddWithValue("@Gender", employee.gender);
-                    sqlCommand.Parameters.AddWithValue("@PhoneNumber", employee.phoneNumber);
-                    sqlCommand.Parameters.AddWithValue("@Address", employee.address);
-                    SqlParameter outPutVal = new SqlParameter("@scopeIdentifier", SqlDbType.Int);
-                    outPutVal.Direction = ParameterDirection.Output;
-                    sqlCommand.Parameters.Add(outPutVal);
-
-                    sqlCommand.ExecuteNonQuery();
-                    SqlCommand sqlCommand1 = new SqlCommand(storedProcedurePayroll, connection, transaction);
-                    sqlCommand1.CommandType = CommandType.StoredProcedure;
-                    sqlCommand1.Parameters.AddWithValue("@ID", outPutVal.Value);
-                    sqlCommand1.Parameters.AddWithValue("@BasicPay", employee.basicPay);
-                    sqlCommand1.Parameters.AddWithValue("@Deduction", employee.deduction);
-                    sqlCommand1.Parameters.AddWithValue("@TaxablePay", employee.taxablePay);
-                    sqlCommand1.Parameters.AddWithValue("@IncomeTax", employee.incomeTax);
-                    sqlCommand1.Parameters.AddWithValue("@NetPay", employee.netPay);
-                    sqlCommand1.ExecuteNonQuery();
-                    transaction.Commit();
+                    SqlCommand update = new SqlCommand("spUpdateEmployeeSalary", connection);
+                    update.CommandType = System.Data.CommandType.StoredProcedure;
+                    update.Parameters.AddWithValue("@id", model.EmployeeID);
+                    update.Parameters.AddWithValue("@Basic_Pay", model.BasicPay);
+                    connection.Open();
+                    var result = update.ExecuteNonQuery();
                     connection.Close();
-                }
-
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    try
+                    if(result != 0)
                     {
-                        transaction.Rollback();
+                        return true;
                     }
-                    catch (Exception ex2)
-                    {
-
-                        Console.WriteLine(ex2.Message);
-                    }
+                    return false;
                 }
             }
-
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return false;
         }
     }
 
