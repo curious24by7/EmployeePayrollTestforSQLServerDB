@@ -9,6 +9,7 @@ namespace EmployeePayrollService
             Console.WriteLine("Welcome to Employee Payroll!");
             EmployeeRepo repo = new EmployeeRepo();
             EmployeeModel employee = new EmployeeModel();
+
             //employee.EmployeeName = "Shyam";
             //employee.Department = "Sales";
             //employee.PhoneNumber = "9863907678";
@@ -20,13 +21,16 @@ namespace EmployeePayrollService
             //if (repo.AddEmployee(employee))
             //    Console.WriteLine("Records added successfully");
 
-            employee.EmployeeID = 2;
-            employee.BasicPay = 3000000;
-            if (repo.UpdateEmployeeSalary(employee))
-            {
-                Console.WriteLine("Salary Updated Successfully");
-            }
+            //employee.EmployeeID = 2;
+            //employee.BasicPay = 3000000;
+            //if (repo.UpdateEmployeeSalary(employee))
+            //{
+            //    Console.WriteLine("Salary Updated Successfully");
+            //}
+
             //repo.GetAllEmployee();
+
+            repo.RetriveDateRange();
             Console.ReadKey();
         }
     }

@@ -10,6 +10,7 @@ namespace EmployeePayrollService
     {
         public static string connectionString = "Data Source=(localdb)\\ProjectsV13;Initial Catalog=payroll_service;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         SqlConnection connection = new SqlConnection(connectionString);
+        EmployeeModel empModel = new EmployeeModel();
         public void GetAllEmployee()
         {
             try
@@ -123,6 +124,41 @@ namespace EmployeePayrollService
                 connection.Close();
             }
             return false;
+        }
+        public void RetriveDateRange()
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string query = "SELECT * from employee_payroll where start between '2015-01-03' and GETDATE()";
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            empModel.EmployeeName = dr.GetString(1);
+                            empModel.StartDate = dr.GetDateTime(3);
+                            Console.WriteLine("[Name] {0}  [Date] {1}", empModel.EmployeeName, empModel.StartDate);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Data Found");
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 
