@@ -171,6 +171,7 @@ namespace EmployeePayrollService
                     string AVG = @"select avg (basic_pay) from employee_payroll where gender='M'";
                     string MIN = @"select min (basic_pay) from employee_payroll where gender='M'";
                     string MAX = @"select max(basic_pay) from employee_payroll where gender = 'M'";
+                    string COUNT = @"select count (basic_pay) from employee_payroll where gender ='M'";
                     //SUMMATION
                     SqlCommand Sumcmd = new SqlCommand(SUM, connection);
                     connection.Open();
@@ -239,7 +240,23 @@ namespace EmployeePayrollService
                         Console.WriteLine("No Data Found");
                     }
                     connection.Close();
-
+                    //COUNT
+                    SqlCommand count = new SqlCommand(COUNT, connection);
+                    connection.Open();
+                    SqlDataReader CntDr = count.ExecuteReader();
+                    if (CntDr.HasRows)
+                    {
+                        while (CntDr.Read())
+                        {
+                            int Count = CntDr.GetInt32(0);
+                            Console.WriteLine("Number of Employees = {0}", Count);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Data Found");
+                    }
+                    connection.Close();
                 }
             }
             catch(Exception e)
@@ -251,8 +268,6 @@ namespace EmployeePayrollService
             {
                 connection.Close();
             }
-
         }
     }
-
 }
