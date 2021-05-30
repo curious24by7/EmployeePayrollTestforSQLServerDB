@@ -170,7 +170,8 @@ namespace EmployeePayrollService
                     string SUM = @"select sum (basic_pay) from employee_payroll where gender='M'";
                     string AVG = @"select avg (basic_pay) from employee_payroll where gender='M'";
                     string MIN = @"select min (basic_pay) from employee_payroll where gender='M'";
-
+                    string MAX = @"select max(basic_pay) from employee_payroll where gender = 'M'";
+                    //SUMMATION
                     SqlCommand Sumcmd = new SqlCommand(SUM, connection);
                     connection.Open();
                     SqlDataReader dr = Sumcmd.ExecuteReader();
@@ -187,7 +188,7 @@ namespace EmployeePayrollService
                         Console.WriteLine("No Data Found");
                     }
                     connection.Close();
-
+                    //AVERAGE
                     SqlCommand average = new SqlCommand(AVG, connection);
                     connection.Open();
                     SqlDataReader AvgDr = average.ExecuteReader();
@@ -204,7 +205,7 @@ namespace EmployeePayrollService
                         Console.WriteLine("No Data Found");
                     }
                     connection.Close();
-
+                    //MINIMUM
                     SqlCommand min = new SqlCommand(MIN, connection);
                     connection.Open();
                     SqlDataReader MinDr = min.ExecuteReader();
@@ -221,6 +222,24 @@ namespace EmployeePayrollService
                         Console.WriteLine("No Data Found");
                     }
                     connection.Close();
+                    //MAXIMUM
+                    SqlCommand max = new SqlCommand(MAX, connection);
+                    connection.Open();
+                    SqlDataReader MaxDr = max.ExecuteReader();
+                    if (MaxDr.HasRows)
+                    {
+                        while (MaxDr.Read())
+                        {
+                            decimal Max = MaxDr.GetDecimal(0);
+                            Console.WriteLine("Maximum Salary is = {0}", Max);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Data Found");
+                    }
+                    connection.Close();
+
                 }
             }
             catch(Exception e)
