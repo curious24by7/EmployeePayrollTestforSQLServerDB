@@ -160,6 +160,43 @@ namespace EmployeePayrollService
                 connection.Close();
             }
         }
+        public void Functions()
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string SUM = @"select sum (basic_pay) from employee_payroll where gender='M'";
+                    SqlCommand Sumcmd = new SqlCommand(SUM, connection);
+                    connection.Open();
+                    SqlDataReader dr = Sumcmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            decimal ADD =  dr.GetDecimal(0);
+                            Console.WriteLine("Salary Total = {0}" , ADD);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No such Data Found!!");
+                    }
+                    connection.Close();
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+        }
     }
 
 }

@@ -30,7 +30,9 @@ namespace EmployeePayrollService
 
             //repo.GetAllEmployee();
 
-            repo.RetriveDateRange();
+            //repo.RetriveDateRange();
+
+            repo.Functions();
             Console.ReadKey();
         }
     }
