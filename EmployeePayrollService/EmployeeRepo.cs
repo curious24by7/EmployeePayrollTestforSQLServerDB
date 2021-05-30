@@ -169,6 +169,8 @@ namespace EmployeePayrollService
                 {
                     string SUM = @"select sum (basic_pay) from employee_payroll where gender='M'";
                     string AVG = @"select avg (basic_pay) from employee_payroll where gender='M'";
+                    string MIN = @"select min (basic_pay) from employee_payroll where gender='M'";
+
                     SqlCommand Sumcmd = new SqlCommand(SUM, connection);
                     connection.Open();
                     SqlDataReader dr = Sumcmd.ExecuteReader();
@@ -195,6 +197,23 @@ namespace EmployeePayrollService
                         {
                             decimal Avg = AvgDr.GetDecimal(0);
                             Console.WriteLine("Average Total Salary = {0}", Avg);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Data Found");
+                    }
+                    connection.Close();
+
+                    SqlCommand min = new SqlCommand(MIN, connection);
+                    connection.Open();
+                    SqlDataReader MinDr = min.ExecuteReader();
+                    if (MinDr.HasRows)
+                    {
+                        while (MinDr.Read())
+                        {
+                            decimal Min = MinDr.GetDecimal(0);
+                            Console.WriteLine("Minimum Salary is = {0}", Min);
                         }
                     }
                     else
